@@ -1,0 +1,40 @@
+POST http://127.0.0.1:8000/api/validate/
+Content-Type: application/json
+
+{
+    "phone":"9893707504"
+}
+
+
+### Verify
+POST http://127.0.0.1:8000/api/verify_otp/
+Content-Type: application/json
+
+{
+    "phone":"9893707504",
+    "otp":"206031"
+}
+
+### Register
+
+POST http://127.0.0.1:8000/api/register/
+Content-Type: application/json
+
+{
+    "phone":"9893707504"
+}
+
+### login
+
+POST http://127.0.0.1:8000/api/login/
+Content-Type: application/json
+
+{
+    "phone":"9893707504"
+}
+
+### GET Profile
+GET  http://127.0.0.1:8000/api/profile/ HTTP/1.1
+Content-Type: application/json
+Authorization: Token 5127da6205dd06ddcafade6f469946a41072aad62c881bb94feb3b78ff4917d6
+
