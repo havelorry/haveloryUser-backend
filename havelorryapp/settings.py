@@ -26,7 +26,7 @@ SECRET_KEY = 'lue)m(_f2y$gao8)*(w-!uh1w-y_%#==n*8!-f13#vkz%$yig^'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'havelorryapp.herokuapp.com/',    
+    'havelorryapp.herokuapp.com',    
     ]
 
 
