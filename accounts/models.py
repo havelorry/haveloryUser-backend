@@ -2,7 +2,8 @@ from django.db import models
 from django.core.validators import RegexValidator
 from django.contrib.auth.models import (
     AbstractBaseUser,
-    BaseUserManager
+    BaseUserManager,
+    PermissionsMixin
 )
 
 from django.db.models.signals import post_save
@@ -24,6 +25,7 @@ class UserManager(BaseUserManager):
         user_obj.admin = is_admin
         user_obj.staff = is_staff
         user_obj.active = is_active
+        user_obj.phone_verified = True
         user_obj.save(using=self._db)
         return user_obj
 
@@ -50,7 +52,7 @@ class UserManager(BaseUserManager):
 
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser,PermissionsMixin):
     phone_regex =  RegexValidator(regex=r'^\+?1?\d{9,14}$',message='Phone number must be entered in following format')
     phone       =  models.CharField(max_length=15,validators=[phone_regex], unique=True)
     email       =  models.EmailField(blank=True,null=True)
@@ -97,6 +99,11 @@ class User(AbstractBaseUser):
     def is_admin(self):
         return self.admin
 
+
+    @property
+    def is_superuser(self):
+        return self.admin
+
     @property
     def is_email_verified(self):
         return self.email_verified
@@ -112,7 +119,7 @@ class User(AbstractBaseUser):
 
 class OTP(models.Model):
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,14}$', message='phone number must be entered in folloeing format *********')
-    phone = models.CharField(validators = [phone_regex],max_length=17, unique=True)
+    phone = models.CharField(validators = [phone_regex],max_length=17)
     otp = models.CharField(max_length=10, blank=True, null=True)
     count = models.IntegerField(default=0,help_text='Number of otp sent')    
     validated = models.BooleanField(default=False,help_text='Only if it is verified')

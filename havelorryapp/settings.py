@@ -26,7 +26,8 @@ SECRET_KEY = 'lue)m(_f2y$gao8)*(w-!uh1w-y_%#==n*8!-f13#vkz%$yig^'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'havelorryapp.herokuapp.com',    
+    'havelorryapp.herokuapp.com',
+    '127.0.0.1'    
     ]
 
 
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'rolepermissions',
     'rest_framework',
     'knox',
     'accounts'
@@ -91,6 +93,8 @@ DATABASES = {
 
 AUTH_USER_MODEL = 'accounts.User'
 
+
+ROLEPERMISSIONS_MODULE = 'accounts.roles'
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 

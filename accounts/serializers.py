@@ -1,7 +1,9 @@
 
 from django.contrib.auth import get_user_model, authenticate
+from rolepermissions.roles import assign_role 
+from rolepermissions.permissions import grant_permission,revoke_permission
 from rest_framework import serializers
-
+from .roles import VIEW_RIDE_HISTORY,CREATE_RIDE
 User = get_user_model()
 
 def format_message(message):
@@ -28,7 +30,11 @@ class CreateUserSerializer(serializers.ModelSerializer):
 
     def create(self,validated_data):
         user = User.objects.create_user(**validated_data)
+        assign_role(user,'customer')
+        grant_permission(user,CREATE_RIDE)
+        grant_permission(user,VIEW_RIDE_HISTORY)
         return user
+
 
 
 class LoginSerializer(serializers.Serializer):

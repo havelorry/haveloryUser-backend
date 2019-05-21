@@ -167,7 +167,7 @@ class LoginView(KnoxLoginView):
         
         temp_data = {
             'phone':request.data.get('phone'),
-            'password':'soludents@123#'
+            'password':'soludents@123#',
         }
 
         print(temp_data)
@@ -190,10 +190,19 @@ class UserDetailView(views.APIView):
         data['username'] = user.phone
         data['email'] = user.email
         data['language'] = user.language
-        
+        data['phone_verified'] = user.is_phone_verified
+        data['email_verified'] = user.is_email_verified
+        data['lang_options']  = {
+            'active':user.language,
+            'options':('EN','AR')
+        }       
         print(user.is_admin)
 
         return Response({
             'status':True,
             'data':data
         })
+
+    def post(self,request,*args,**kwargs):
+        pass
+
