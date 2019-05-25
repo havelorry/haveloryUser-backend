@@ -1,8 +1,10 @@
+### validate user
+
 POST https://havelorryapp.herokuapp.com/api/validate/
 Content-Type: application/json
 
 {
-    "phone":"9630896142"
+    "phone":"9893707504"
 }
 
 
@@ -11,17 +13,17 @@ POST https://havelorryapp.herokuapp.com/api/verify_otp/
 Content-Type: application/json
 
 {
-    "phone":"9630896142",
-    "otp":"219512"
+    "phone":"9893707504",
+    "otp":"574941"
 }
 
 ### Register
 
-POST http://127.0.0.1:8000/api/register/
+POST https://havelorryapp.herokuapp.com/api/register/
 Content-Type: application/json
 
 {
-    "phone":"9630896142"
+    "phone":"9893707504"
 }
 
 ### login
@@ -34,7 +36,7 @@ Content-Type: application/json
 }
 
 ### local login
-POST http://127.0.0.1:8000/api/login/
+POST https://havelorryapp.herokuapp.com/api/login/
 Content-Type: application/json
 
 {
@@ -42,7 +44,7 @@ Content-Type: application/json
 }
 
 ### GET Profile
-GET  http://127.0.0.1:8000/api/profile/ HTTP/1.1
+GET  https://havelorryapp.herokuapp.com/api/profile/ HTTP/1.1
 Content-Type: application/json
-Authorization: Token 796b4f64f82ab742bc11be0928372495e64bfb8b563374bbb1e621fa1db02812
+Authorization: Token 44514d5663b2c297f62d6a2dfe5e7275e8bb178c44cb9b727cb56530d6f47927
 
