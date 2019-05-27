@@ -27,7 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'havelorryapp.herokuapp.com',
-    '127.0.0.1'    
+    '127.0.0.1',
+    'localhost',    
     ]
 
 
@@ -44,7 +45,8 @@ INSTALLED_APPS = [
     'rolepermissions',
     'rest_framework',
     'knox',
-    'accounts'
+    'accounts',
+    'drivers',
 ]
 
 MIDDLEWARE = [
