@@ -137,3 +137,24 @@ class Location(models.Model):
         return f'({self.lat}, {self.lng})'
 
 
+class ProfileManager(models.Manager):
+    
+    def get_or_none(self, **kwargs):
+        try:
+            return self.get(**kwargs)
+        except Exception:
+            return None
+
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE,default=None,primary_key=True,)
+    firstName = models.CharField(max_length=100,null=False,blank=True, default='User Name')
+    lastName = models.CharField(max_length=100,null=False,blank=True, default='Last Name')
+    profilePic = models.CharField(max_length=100,null=False,blank=True, default='None')
+
+    objects = ProfileManager()
+    
+    def __str__(self):
+        return f"{self.firstName}"
+

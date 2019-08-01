@@ -1,17 +1,18 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
-from rest_framework.parsers import JSONParser
+from rest_framework.parsers import JSONParser,MultiPartParser
 from rest_framework.response import Response
 from django.contrib.auth import login
 from knox.views import LoginView as KnoxLoginView
 from knox.auth import TokenAuthentication
 from rest_framework import views
 from rest_framework.permissions import IsAuthenticated
-from .models import User, OTP
+from .models import User, OTP, Profile
+from django.forms import model_to_dict
 import random
 
 from .permissions import APIPermission
-from .serializers import CreateUserSerializer, LoginSerializer
+from .serializers import CreateUserSerializer, LoginSerializer, ProfileSerializer
 # Create your views here.
 
 def send_otp(phone):
@@ -186,23 +187,57 @@ class UserDetailView(views.APIView):
 
     def get(self,request,*args, **kwargs):
         user = request.user
-        data = {}
-        data['username'] = user.phone
-        data['email'] = user.email
-        data['language'] = user.language
-        data['phone_verified'] = user.is_phone_verified
-        data['email_verified'] = user.is_email_verified
-        data['lang_options']  = {
-            'active':user.language,
-            'options':('EN','AR')
-        }       
-        print(user.is_admin)
+        profile = Profile.objects.get_or_none(user=user)
+        print(
+            profile
+        )
+        ps = ProfileSerializer(instance=profile)
+
+
 
         return Response({
             'status':True,
-            'data':data
+            'data':ps.data
         })
 
     def post(self,request,*args,**kwargs):
-        pass
+        user = request.user
+        request_data = {
+            'user':model_to_dict(user),
+            **request.data
+        }
+
+        
+        profile = Profile.objects.get_or_none(user=user)
+        if profile is None:
+            ps = Profile()
+            ps.user = user
+            ps.firstName = request.data['firstName']
+            ps.lastName = request.data['lastName']
+            ps.profilePic = request.data['profilePic']
+            ps.save()
+            return Response({'data':ProfileSerializer(instance=ps).data, 'status':True})
+        else:
+            for key,value in request.data.items():
+                setattr(profile,key,value)
+            
+            profile.save()
+            return Response({'data':ProfileSerializer(instance=profile).data})
+
+
+class FileUploadView(views.APIView):
+    parser_classes = (MultiPartParser,JSONParser)
+
+    def put(self, request, format=None):
+        from django.core.files.storage import FileSystemStorage
+        
+        fs = FileSystemStorage()
+        file_obj = request.FILES['file']
+        filename = fs.save(f"profiles/{file_obj.name}", file_obj)
+
+        return Response({
+            'status':'ok',
+            'file_url':fs.url(filename)
+        })
+
 

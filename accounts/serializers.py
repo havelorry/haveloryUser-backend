@@ -5,6 +5,7 @@ from rolepermissions.permissions import grant_permission,revoke_permission
 from rest_framework import serializers
 from .roles import VIEW_RIDE_HISTORY,CREATE_RIDE
 User = get_user_model()
+from accounts.models import Profile
 
 def format_message(message):
     return {
@@ -59,5 +60,20 @@ class LoginSerializer(serializers.Serializer):
 
         return data
 
-        
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    
+    user = UserSerializer()
+    depth = 1
+    class Meta:
+        model = Profile
+        fields = (
+            'firstName',
+            'lastName',
+            'profilePic',
+            'user'
+        ) 
+
+
         
