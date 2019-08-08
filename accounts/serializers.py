@@ -4,6 +4,7 @@ from rolepermissions.roles import assign_role
 from rolepermissions.permissions import grant_permission,revoke_permission
 from rest_framework import serializers
 from .roles import VIEW_RIDE_HISTORY,CREATE_RIDE
+from accounts.models import Profile
 User = get_user_model()
 from accounts.models import Profile
 
@@ -31,9 +32,12 @@ class CreateUserSerializer(serializers.ModelSerializer):
 
     def create(self,validated_data):
         user = User.objects.create_user(**validated_data)
+        profile = Profile()
         assign_role(user,'customer')
         grant_permission(user,CREATE_RIDE)
         grant_permission(user,VIEW_RIDE_HISTORY)
+        profile.user = user
+        profile.save()
         return user
 
 

@@ -25,11 +25,7 @@ SECRET_KEY = 'lue)m(_f2y$gao8)*(w-!uh1w-y_%#==n*8!-f13#vkz%$yig^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    'havelorryapp.herokuapp.com',
-    '127.0.0.1',
-    'localhost',    
-    ]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
